@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\obj\Debug\NG.MergeSort.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\obj\Debug\NG.MergeSort.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\bin\Debug\NG.MergeSort.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\bin\Debug\NG.MergeSort.exe
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\bin\Debug\NG.MergeSort.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\obj\Debug\NG.MergeSort.exe
+C:\Users\Naveen.Gupta\source\repos\NG.MergeSort\NG.MergeSort\obj\Debug\NG.MergeSort.pdb

@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\obj\Debug\NG.BFS.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\obj\Debug\NG.BFS.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\bin\Debug\NG.BFS.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\bin\Debug\NG.BFS.exe
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\bin\Debug\NG.BFS.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\obj\Debug\NG.BFS.exe
+C:\Users\Naveen.Gupta\source\repos\NG.BFS\NG.BFS\obj\Debug\NG.BFS.pdb

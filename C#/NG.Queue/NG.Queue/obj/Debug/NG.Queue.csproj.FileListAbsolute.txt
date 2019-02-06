@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\obj\Debug\NG.Queue.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\obj\Debug\NG.Queue.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\bin\Debug\NG.Queue.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\bin\Debug\NG.Queue.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\bin\Debug\NG.Queue.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\obj\Debug\NG.Queue.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Queue\NG.Queue\obj\Debug\NG.Queue.pdb

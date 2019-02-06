@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\obj\Debug\NG.Assignment1.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\obj\Debug\NG.Assignment1.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\bin\Debug\NG.Assignment1.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\bin\Debug\NG.Assignment1.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\bin\Debug\NG.Assignment1.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\obj\Debug\NG.Assignment1.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Assignment1\NG.Assignment1\obj\Debug\NG.Assignment1.pdb

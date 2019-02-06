@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\bin\Debug\NG.HelloWorld.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\bin\Debug\NG.HelloWorld.exe
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\bin\Debug\NG.HelloWorld.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\obj\Debug\NG.HelloWorld.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\obj\Debug\NG.HelloWorld.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\obj\Debug\NG.HelloWorld.exe
+C:\Users\Naveen.Gupta\source\repos\NG.HelloWorld\NG.HelloWorld\obj\Debug\NG.HelloWorld.pdb

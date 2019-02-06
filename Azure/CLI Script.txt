@@ -1,0 +1,14 @@
+CLI command to create a Resource group
+~$ az group create --name AssignmentRG2 --location "South Central US"
+
+
+CLI command to create a VM in the above RGP
+~$ az vm create --resource-group AssignmentRG2 \
+>   --name Assignment2VM2 \
+>   --image UbuntuLTS \
+>   --generate-ssh-keys \
+>   --output json \
+>   --verbose
+
+CLI command to create a storage account
+~$ az storage account create -n ngsg2 -g AssignmentRG2 -l westus --sku Standard_LRS

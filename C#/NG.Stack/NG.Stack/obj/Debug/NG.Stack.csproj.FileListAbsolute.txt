@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\obj\Debug\NG.Stack.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\obj\Debug\NG.Stack.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\bin\Debug\NG.Stack.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\bin\Debug\NG.Stack.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\bin\Debug\NG.Stack.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\obj\Debug\NG.Stack.exe
+C:\Users\Naveen.Gupta\source\repos\NG.Stack\NG.Stack\obj\Debug\NG.Stack.pdb

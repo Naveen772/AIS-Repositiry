@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\obj\Debug\NG.DFS.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\obj\Debug\NG.DFS.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\bin\Debug\NG.DFS.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\bin\Debug\NG.DFS.exe
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\bin\Debug\NG.DFS.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\obj\Debug\NG.DFS.exe
+C:\Users\Naveen.Gupta\source\repos\NG.DFS\NG.DFS\obj\Debug\NG.DFS.pdb

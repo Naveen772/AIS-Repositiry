@@ -1,0 +1,7 @@
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\bin\Debug\NG.InsertionSort.exe.config
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\bin\Debug\NG.InsertionSort.exe
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\bin\Debug\NG.InsertionSort.pdb
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\obj\Debug\NG.InsertionSort.csprojResolveAssemblyReference.cache
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\obj\Debug\NG.InsertionSort.csproj.CoreCompileInputs.cache
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\obj\Debug\NG.InsertionSort.exe
+C:\Users\Naveen.Gupta\source\repos\NG.InsertionSort\NG.InsertionSort\obj\Debug\NG.InsertionSort.pdb

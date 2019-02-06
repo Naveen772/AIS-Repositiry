@@ -1,0 +1,19 @@
+#command to login in the azure account
+$>Connect-AzureRmAccount
+
+#command to create the resource group
+$> New-AzureRmResourceGroup NaveenRG01 "South Central US"
+
+#command to create VM
+$>New-AzureRmVm `
+>>-ResourceGroupName "NaveenRG01" `
+>>-Name "Asssignment2VM" `
+>>-Location "East US"`
+>>-VirtualNetworkName "myVnet" `
+>>-SubnetName "mySubnet" `
+>>-SecurityGroupName "myNetworkSecurityGroup" `
+>>-PublicIpAddressName "myPublicIpAddress" `
+>>-OpenPorts 80,3389
+
+
+
