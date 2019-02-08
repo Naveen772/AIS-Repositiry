@@ -1,0 +1,161 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsLabelPrefix": {
+            "type": "String",
+            "metadata": {
+                "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
+            }
+        },
+        "adminUsername": {
+            "type": "String",
+            "metadata": {
+                "description": "Username for the Virtual Machine."
+            }
+        },
+        "adminPassword": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "Password for the Virtual Machine."
+            }
+        },
+        "vmSize": {
+            "type": "String",
+            "metadata": {
+                "description": "Size of VM"
+            }
+        },
+        "sizeOfEachDataDiskInGB": {
+            "type": "String",
+            "metadata": {
+                "description": "Size of each data disk in GB"
+            }
+        },
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "String",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        }
+    },
+    "variables": {
+        "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'saddiskvm')]",
+        "addressPrefix": "10.0.0.0/25",
+        "subnet1Name": "Subnet2",
+        "subnet1Prefix": "10.0.0.16/28",
+        "imagePublisher": "MicrosoftWindowsServer",
+        "imageOffer": "WindowsServer",
+        "imageSKU": "2012-Datacenter",
+        "imageVersion": "latest",
+        "publicIPAddressName": "myPublicIP",
+        "publicIPAddressType": "Dynamic",
+        "storageAccountType": "Standard_LRS",
+        "virtualNetworkName": "Assignment3VNet1",
+        "vmName": "Assignment3Vm2",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+        "nicName": "myNIC",
+        "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+        "apiVersion": "2015-06-15"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "properties": {
+                "accountType": "[variables('storageAccountType')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('nicName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Ref')]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmName')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[parameters('location')]",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('imageSKU')]",
+                        "version": "[variables('imageVersion')]"
+                    },
+                    "dataDisks": [
+                        {
+                            "diskSizeGB": "[parameters('sizeOfEachDataDiskInGB')]",
+                            "lun": 0,
+                            "createOption": "Empty"
+                        }
+                    ],
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob)]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ]
+        }
+    ]
+}
