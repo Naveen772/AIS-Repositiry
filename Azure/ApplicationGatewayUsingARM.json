@@ -1,0 +1,439 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+   
+    "skuName": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_Small",
+        "Standard_Medium",
+        "Standard_Large"
+      ],
+      "defaultValue": "Standard_Medium",
+      "metadata": {
+        "description": "Sku Name"
+      }
+    },
+    "capacity": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {
+        "description": "Number of instances"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    },
+    "myagType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "myag2Type": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "mysaagType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "myvmName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "myvmAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "myvmAdminPassword": {
+      "type": "securestring"
+    },
+    "myvmWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "myAGVM2Name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "myAGVM2AdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "myAGVM2AdminPassword": {
+      "type": "securestring"
+    },
+    "myAGVM2WindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    }
+  },
+  "variables": {
+    "applicationGatewayName": "applicationGateway1",
+    "publicIPAddressName": "publicIp1",
+    "virtualNetworkName": "virtualNetwork1",
+    "subnetName1": "Subnet1",
+    "subnetName2": "Subnet2",
+    "subnetRef1": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName1'))]",
+    "subnetRef2": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName2'))]",
+    "publicIPRef": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "applicationGatewayID": "[resourceId('Microsoft.Network/applicationGateways',variables('applicationGatewayName'))]",
+    "myagName": "[concat('myag', uniqueString(resourceGroup().id))]",
+    "myag2Name": "[concat('myag2', uniqueString(resourceGroup().id))]",
+    "mysaagName": "[concat('mysaag', uniqueString(resourceGroup().id))]",
+    "myvmImagePublisher": "MicrosoftWindowsServer",
+    "myvmImageOffer": "WindowsServer",
+    "myvmOSDiskName": "myvmOSDisk",
+    "myvmVmSize": "Standard_D2_v2",
+    "myvmVnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "myvmSubnetRef": "[concat(variables('myvmVnetID'), '/subnets/', 'Subnet2')]",
+    "myvmStorageAccountContainerName": "vhds",
+    "myvmNicName": "[concat(parameters('myvmName'), 'NetworkInterface')]",
+    "myAGVM2ImagePublisher": "MicrosoftWindowsServer",
+    "myAGVM2ImageOffer": "WindowsServer",
+    "myAGVM2OSDiskName": "myAGVM2OSDisk",
+    "myAGVM2VmSize": "Standard_D2_v2",
+    "myAGVM2VnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "myAGVM2SubnetRef": "[concat(variables('myAGVM2VnetID'), '/subnets/', 'Subnet2')]",
+    "myAGVM2StorageAccountContainerName": "vhds",
+    "myAGVM2NicName": "[concat(parameters('myAGVM2Name'), 'NetworkInterface')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "50.0.0.0/25"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "Subnet1",
+            "properties": {
+              "addressPrefix": "50.0.0.0/28"
+            }
+          },
+          {
+            "name": "Subnet2",
+            "properties": {
+              "addressPrefix": "50.0.0.16/28"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2017-06-01",
+      "name": "[variables('applicationGatewayName')]",
+      "type": "Microsoft.Network/applicationGateways",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('myvmNicName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('myAGVM2NicName'))]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+      ],
+      "properties": {
+        "sku": {
+          "name": "[parameters('skuName')]",
+          "tier": "Standard",
+          "capacity": "[parameters('capacity')]"
+        },
+        "gatewayIPConfigurations": [
+          {
+            "name": "appGatewayIpConfig",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnetRef1')]"
+              }
+            }
+          }
+        ],
+        "frontendIPConfigurations": [
+          {
+            "name": "appGatewayFrontendIP",
+            "properties": {
+              "PublicIPAddress": {
+                "id": "[variables('publicIPRef')]"
+              }
+            }
+          }
+        ],
+        "frontendPorts": [
+          {
+            "name": "appGatewayFrontendPort",
+            "properties": {
+              "Port": 80
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "appGatewayBackendPool",
+            "properties": {
+              "BackendAddresses": [
+                {
+                  "IpAddress": "50.0.0.21"
+                },
+                {
+                  "IpAddress": "50.0.0.22"
+                }
+              ]
+            }
+          }
+        ],
+        "backendHttpSettingsCollection": [
+          {
+            "name": "appGatewayBackendHttpSettings",
+            "properties": {
+              "Port": 80,
+              "Protocol": "Http",
+              "CookieBasedAffinity": "Disabled"
+            }
+          }
+        ],
+        "httpListeners": [
+          {
+            "name": "appGatewayHttpListener",
+            "properties": {
+              "FrontendIPConfiguration": {
+                "Id": "[concat(variables('applicationGatewayID'), '/frontendIPConfigurations/appGatewayFrontendIP')]"
+              },
+              "FrontendPort": {
+                "Id": "[concat(variables('applicationGatewayID'), '/frontendPorts/appGatewayFrontendPort')]"
+              },
+              "Protocol": "Http",
+              "SslCertificate": null
+            }
+          }
+        ],
+        "requestRoutingRules": [
+          {
+            "Name": "rule1",
+            "properties": {
+              "RuleType": "Basic",
+              "httpListener": {
+                "id": "[concat(variables('applicationGatewayID'), '/httpListeners/appGatewayHttpListener')]"
+              },
+              "backendAddressPool": {
+                "id": "[concat(variables('applicationGatewayID'), '/backendAddressPools/appGatewayBackendPool')]"
+              },
+              "backendHttpSettings": {
+                "id": "[concat(variables('applicationGatewayID'), '/backendHttpSettingsCollection/appGatewayBackendHttpSettings')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('mysaagName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-01-01",
+      "sku": {
+        "name": "[parameters('mysaagType')]"
+      },
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "mysaag"
+      },
+      "kind": "Storage"
+    },
+    {
+      "name": "[variables('myvmNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "myvmNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "50.0.0.21",
+
+              "subnet": {
+                "id": "[variables('subnetRef2')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('myvmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('mysaagName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('myvmNicName'))]"
+      ],
+      "tags": {
+        "displayName": "myvm"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('myvmVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('myvmName')]",
+          "adminUsername": "[parameters('myvmAdminUsername')]",
+          "adminPassword": "[parameters('myvmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('myvmImagePublisher')]",
+            "offer": "[variables('myvmImageOffer')]",
+            "sku": "[parameters('myvmWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "myvmOSDisk",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('mysaagName')), '2016-01-01').primaryEndpoints.blob, variables('myvmStorageAccountContainerName'), '/', variables('myvmOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('myvmNicName'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "[variables('myAGVM2NicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "myAGVM2Nic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "50.0.0.22",
+              "subnet": {
+                "id": "[variables('subnetRef2')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('myAGVM2Name')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('mysaagName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('myAGVM2NicName'))]"
+      ],
+      "tags": {
+        "displayName": "myAGVM2"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('myAGVM2VmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('myAGVM2Name')]",
+          "adminUsername": "[parameters('myAGVM2AdminUsername')]",
+          "adminPassword": "[parameters('myAGVM2AdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('myAGVM2ImagePublisher')]",
+            "offer": "[variables('myAGVM2ImageOffer')]",
+            "sku": "[parameters('myAGVM2WindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "myAGVM2OSDisk",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('mysaagName')), '2016-01-01').primaryEndpoints.blob, variables('myAGVM2StorageAccountContainerName'), '/', variables('myAGVM2OSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('myAGVM2NicName'))]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
